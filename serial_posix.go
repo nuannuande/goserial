@@ -1,3 +1,4 @@
+//go:build darwin || linux || freebsd || openbsd || netbsd
 // +build darwin linux freebsd openbsd netbsd
 
 package serial
@@ -235,9 +236,9 @@ func enableRS485(fd int, config *RS485Config) error {
 	}
 	rs485 := rs485_ioctl_opts{
 		rs485Enabled,
-		uint32(config.DelayRtsBeforeSend / time.Millisecond),
-		uint32(config.DelayRtsAfterSend / time.Millisecond),
-		[5]uint32{0, 0, 0, 0, 0},
+		uint32(config.DelayRtsBeforeSend / time.Microsecond),
+		uint32(config.DelayRtsAfterSend / time.Microsecond),
+		config.Padding,
 	}
 
 	if config.RtsHighDuringSend {
